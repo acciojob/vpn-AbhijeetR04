@@ -8,13 +8,16 @@ public class Connection {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @JoinColumn
+    // child of service provider
     @ManyToOne
+    @JoinColumn
+    private ServiceProvider serviceProvider;
+
+    // child of user class
+    @ManyToOne
+    @JoinColumn
     private User user;
 
-    @JoinColumn
-    @ManyToOne
-    private ServiceProvider serviceProvider;
 
     public Connection() {
     }
@@ -27,20 +30,20 @@ public class Connection {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public ServiceProvider getServiceProvider() {
         return serviceProvider;
     }
 
     public void setServiceProvider(ServiceProvider serviceProvider) {
         this.serviceProvider = serviceProvider;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
 }

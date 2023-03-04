@@ -26,26 +26,35 @@ public class AdminServiceImpl implements AdminService {
     CountryRepository countryRepository1;
 
     @Override
-    public Admin register(String username, String password){
-        Admin newAdmin = new Admin(username, password);
-        adminRepository1.save(newAdmin);
-        return newAdmin;
+    public Admin register(String username, String password) {
+        Admin admin = new Admin();
+        admin.setPassword(password);
+        admin.setUsername(username);
+        adminRepository1.save(admin);
+
+        return admin;
     }
 
     @Override
     public Admin addServiceProvider(int adminId, String providerName) {
-        Admin oldAdmin = adminRepository1.findById(adminId).get();
-        ServiceProvider newServiceProvider = new ServiceProvider(providerName);
-        oldAdmin.getServiceProviders().add(newServiceProvider);
-        adminRepository1.save(oldAdmin);
-        return oldAdmin;
+        Admin admin = adminRepository1.findById(adminId).get();
+
+        ServiceProvider serviceProvider = new ServiceProvider();
+        serviceProvider.setAdmin(admin);
+        serviceProvider.setName(providerName);
+
+        admin.getServiceProviders().add(serviceProvider);
+
+
+        adminRepository1.save(admin);
+
+        return admin;
     }
 
     @Override
     public ServiceProvider addCountry(int serviceProviderId, String countryName) throws Exception{
-        if(countryName.equalsIgnoreCase("ind") || countryName.equalsIgnoreCase("usa") ||
-                countryName.equalsIgnoreCase("aus")|| countryName.equalsIgnoreCase("jpn")||
-                countryName.equalsIgnoreCase("chi")){
+
+        if(countryName.equalsIgnoreCase("ind") || countryName.equalsIgnoreCase("usa") || countryName.equalsIgnoreCase("aus")||countryName.equalsIgnoreCase("jpn")||countryName.equalsIgnoreCase("chi")){
 
             Country country = new Country();
             ServiceProvider serviceProvider = serviceProviderRepository1.findById(serviceProviderId).get();
@@ -54,19 +63,19 @@ public class AdminServiceImpl implements AdminService {
                 country.setCountryName(CountryName.IND);
                 country.setCode(CountryName.IND.toCode());
             }
-            else if (countryName.equalsIgnoreCase("usa")){
+            if (countryName.equalsIgnoreCase("usa")){
                 country.setCountryName(CountryName.USA);
                 country.setCode(CountryName.USA.toCode());
             }
-            else if (countryName.equalsIgnoreCase("aus")){
+            if (countryName.equalsIgnoreCase("aus")){
                 country.setCountryName(CountryName.AUS);
                 country.setCode(CountryName.AUS.toCode());
             }
-            else if (countryName.equalsIgnoreCase("jpn")){
+            if (countryName.equalsIgnoreCase("jpn")){
                 country.setCountryName(CountryName.JPN);
                 country.setCode(CountryName.JPN.toCode());
             }
-            else if (countryName.equalsIgnoreCase("chi")){
+            if (countryName.equalsIgnoreCase("chi")){
                 country.setCountryName(CountryName.CHI);
                 country.setCode(CountryName.CHI.toCode());
             }
@@ -79,4 +88,5 @@ public class AdminServiceImpl implements AdminService {
         else
             throw new Exception("Country not found");
     }
+
 }

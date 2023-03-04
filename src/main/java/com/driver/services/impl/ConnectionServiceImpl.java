@@ -72,8 +72,6 @@ public class ConnectionServiceImpl implements ConnectionService {
             else
                 throw new Exception("Unable to connect");
         }
-
-
     }
     @Override
     public User disconnect(int userId) throws Exception {
@@ -85,7 +83,6 @@ public class ConnectionServiceImpl implements ConnectionService {
         user.setConnected(false);
         userRepository2.save(user);
         return user;
-
     }
     @Override
     public User communicate(int senderId, int receiverId) throws Exception {
@@ -126,7 +123,6 @@ public class ConnectionServiceImpl implements ConnectionService {
                 return sender;
             }else{
                 String countryName = receiver.getOriginalCountry().getCountryName().toString();
-
                 try{
                     User updatedSender = connect(senderId,countryName);
                     return updatedSender;
@@ -135,7 +131,5 @@ public class ConnectionServiceImpl implements ConnectionService {
                 }
             }
         }
-
-
     }
 }

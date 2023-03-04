@@ -14,28 +14,29 @@ public class User {
     private int id;
 
     private String username;
-
     private String password;
-
     private String originalIp;
-
     private String maskedIp;
-
     private Boolean connected;
 
-    @ManyToMany
-    @JoinColumn
-    private List<ServiceProvider> serviceProviderList = new ArrayList<>();
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @ManyToMany
+    List<ServiceProvider> serviceProviderList = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Connection> connectionList = new ArrayList<>();
+
+
+    @OneToOne
+    @JoinColumn
     private Country originalCountry;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<Connection> connectionList;
+    public Country getOriginalCountry() {
+        return originalCountry;
+    }
 
-    public User(String username, String password, Country originalCountry) {
-        this.username = username;
-        this.password = password;
+    public void setOriginalCountry(Country originalCountry) {
         this.originalCountry = originalCountry;
     }
 
@@ -96,14 +97,6 @@ public class User {
 
     public void setServiceProviderList(List<ServiceProvider> serviceProviderList) {
         this.serviceProviderList = serviceProviderList;
-    }
-
-    public Country getOriginalCountry() {
-        return originalCountry;
-    }
-
-    public void setOriginalCountry(Country originalCountry) {
-        this.originalCountry = originalCountry;
     }
 
     public List<Connection> getConnectionList() {
