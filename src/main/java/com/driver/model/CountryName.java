@@ -13,6 +13,10 @@ public enum CountryName {
         code = s;
     }
 
+    public String getCode() {
+        return code;
+    }
+
     public String toCode() {
         return this.code;
     }
